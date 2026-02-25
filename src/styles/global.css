@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body{
+  background-color: #F1EFEC;
+  font-family: "Slabo 27px", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@theme{
+  --color-white-soul: #F1EFEC;
+  --color-black-soul: #030303;
+  --color-blue-soul: #123458;
+  --color-cream-soul: #D4C9BE;
+}
