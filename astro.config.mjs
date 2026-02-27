@@ -5,11 +5,15 @@ import tailwindcss from '@tailwindcss/vite';
 
 import solidJs from '@astrojs/solid-js';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
+  output:'server',
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [solidJs()]
+  integrations: [solidJs()],
+  adapter: vercel()
 });
