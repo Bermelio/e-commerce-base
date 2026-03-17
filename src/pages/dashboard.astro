@@ -47,7 +47,8 @@ const email = session.data.user?.email;
     </div>
     <form 
       action="/api/auth/signout" 
-      class="text-3xl text-right">
+      class="text-3xl text-right
+      relative pb-1 after:absolute after:bottom-0 after:right-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full">
       <button type="submit">Cerrar Sesion</button>
     </form>
   </div>

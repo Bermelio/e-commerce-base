@@ -1,93 +1,105 @@
 ---
 
 ---
-<div class="flex justify-center items-center">
-  <div
-  class="w-full max-w-2xl min-w-72 gap-5 p-10 rounded-xl border
-  flex flex-col justify-center 
-  ">
-  
-    <div class="flex flex-col">
-      <label for="empresa" class="text-sm font-semibold text-gray-600">
-        Empresa
-      </label>
-      <input 
+<form 
+action="/api/matafuegosDb"
+method="post"
+>
+  <div class="flex justify-center items-center">
+    <div
+    class="w-full max-w-2xl min-w-72 gap-5 p-10 rounded-xl border
+    flex flex-col justify-center 
+    ">
+    
+      <div class="flex flex-col">
+        <label for="empresa" class="text-sm font-semibold text-gray-600">
+          Empresa
+        </label>
+        <input 
         type="text" 
         name="empresa" 
         id="empresa"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         placeholder="Gabiglio"
-      />
-    </div>
-
-    <div class="flex flex-col">
-      <label for="unidades" class="text-sm font-semibold text-gray-600">
-        Unidades
-      </label>
-      <input 
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="unidades" class="text-sm font-semibold text-gray-600">
+          Unidades
+        </label>
+        <input 
         type="number" 
         name="unidades" 
         id="unidades"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         placeholder="1"
-      />
-    </div>
-
-    <div class="flex flex-col">
-      <label for="clasificacion" class="text-sm font-semibold text-gray-600">
-        Clasificación
-      </label>
-      <input 
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="clasificacion" class="text-sm font-semibold text-gray-600">
+          Clasificación
+        </label>
+        <input 
         type="text" 
         name="clasificacion" 
         id="clasificacion"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         placeholder="A B C K"
-      />
-    </div>
-    
-    <div class="flex flex-col">
-      <label for="fechaEntrega" class="text-sm font-semibold text-gray-600">
-        Fecha de entrega
-      </label>
-      <input 
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="fechaEntrega" class="text-sm font-semibold text-gray-600">
+          Fecha de entrega
+        </label>
+        <input 
         type="date" 
         name="fechaEntrega" 
         id="fechaEntrega"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-      />
-    </div>
-
-    <div class="flex flex-col">
-      <label for="fechaRetiro" class="text-sm font-semibold text-gray-600">
-        Fecha de retiro
-      </label>
-      <input 
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="fechaRetiro" class="text-sm font-semibold text-gray-600">
+          Fecha de retiro
+        </label>
+        <input 
         type="date" 
         name="fechaRetiro" 
         id="fechaRetiro"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-      />
-    </div>
-
-    <div class="flex flex-col">
-      <label for="metodoPago" class="text-sm font-semibold text-gray-600">
-        Método de pago
-      </label>
-      <input 
+        />
+      </div>
+      
+      <div class="flex flex-col">
+        <label for="metodoPago" class="text-sm font-semibold text-gray-600">
+          Método de pago
+        </label>
+        <input 
         type="text" 
         name="metodoPago" 
         id="metodoPago"
         required
         class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
         placeholder="(info)"
-      />
+        />
+      </div>
+
+      <div class="flex justify-center">
+        <button 
+        type="submit"
+        class="bg-green-soul hover:bg-forest-soul text-white-soul px-4 py-2 rounded-md"
+        >Guardar</button>
+      </div>
     </div>
   </div>
+</form>
 
-</div>
