@@ -1,0 +1,377 @@
+---
+// 404.astro - Página no encontrada estilo Windows XP
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error - Página no encontrada</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Tahoma&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --xp-blue: #0a246a;
+        --xp-title-start: #0a246a;
+        --xp-title-end: #a6caf0;
+        --xp-gray: #d4d0c8;
+        --xp-border-light: #ffffff;
+        --xp-border-mid: #808080;
+        --xp-border-dark: #404040;
+        --xp-body-bg: #d4d0c8;
+        --xp-btn-face: #d4d0c8;
+        --xp-text: #000000;
+        --xp-close-red: #c0392b;
+      }
+
+      body {
+        font-family: 'Tahoma', Tahoma, sans-serif;
+        font-size: 11px;
+        background-color: #3a6ea5;
+        background-image:
+          radial-gradient(ellipse at 30% 20%, #4a7ec5 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 80%, #2a5a8a 0%, transparent 60%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* Ventana principal */
+      .window {
+        width: 420px;
+        border: 2px solid;
+        border-color: #ffffff #404040 #404040 #ffffff;
+        box-shadow:
+          1px 1px 0 #808080,
+          inset 1px 1px 0 #dfdfdf;
+        background: var(--xp-body-bg);
+        animation: popIn 0.15s ease-out;
+      }
+
+      @keyframes popIn {
+        from { transform: scale(0.85); opacity: 0; }
+        to   { transform: scale(1);    opacity: 1; }
+      }
+
+      /* Barra de título */
+      .title-bar {
+        background: linear-gradient(to right, var(--xp-title-start), var(--xp-title-end));
+        padding: 4px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 26px;
+        user-select: none;
+      }
+
+      .title-bar-text {
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .title-icon {
+        width: 16px;
+        height: 16px;
+        /* Pequeño ícono rojo simulado */
+        background:
+          radial-gradient(circle at 35% 35%, #ff6666, #cc0000);
+        border-radius: 50%;
+        border: 1px solid #880000;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 9px;
+        font-weight: bold;
+      }
+
+      /* Botones de la barra */
+      .title-buttons {
+        display: flex;
+        gap: 2px;
+      }
+
+      .title-btn {
+        width: 21px;
+        height: 21px;
+        background: linear-gradient(to bottom, #e8e8e8, #c0c0c0);
+        border: 1px solid;
+        border-color: #ffffff #808080 #808080 #ffffff;
+        box-shadow: inset 1px 1px 0 #f0f0f0;
+        cursor: pointer;
+        font-size: 9px;
+        font-weight: bold;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Tahoma', sans-serif;
+      }
+
+      .title-btn:active {
+        border-color: #808080 #ffffff #ffffff #808080;
+        box-shadow: none;
+        padding: 1px 0 0 1px;
+      }
+
+      .title-btn.close {
+        background: linear-gradient(to bottom, #e07070, #c03030);
+        color: white;
+      }
+
+      .title-btn.close:hover {
+        background: linear-gradient(to bottom, #ff8888, #dd4444);
+      }
+
+      /* Cuerpo de la ventana */
+      .window-body {
+        padding: 16px;
+        background: var(--xp-body-bg);
+      }
+
+      /* Fila principal: ícono + texto */
+      .message-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      /* Ícono de error (círculo rojo con X) */
+      .error-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        position: relative;
+        margin-top: 2px;
+      }
+
+      .error-icon::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ff5555, #cc0000 60%, #880000);
+        border: 2px solid #660000;
+        box-shadow: 0 0 0 1px #cc0000, inset 0 1px 2px rgba(255,255,255,0.4);
+      }
+
+      .error-icon::after {
+        content: '✕';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 22px;
+        font-weight: 900;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        line-height: 1;
+      }
+
+      .message-text {
+        padding-top: 2px;
+        line-height: 1.6;
+        color: var(--xp-text);
+        font-size: 12px;
+      }
+
+      .message-text strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      /* Línea divisoria */
+      .divider {
+        height: 0;
+        border-top: 1px solid #808080;
+        border-bottom: 1px solid #ffffff;
+        margin: 12px 0;
+      }
+
+      /* Zona de botones */
+      .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      /* Botón estilo XP */
+      .xp-btn {
+        min-width: 90px;
+        padding: 4px 14px;
+        background: linear-gradient(to bottom, #f0f0f0, #d4d0c8);
+        border: 1px solid;
+        border-color: #ffffff #808080 #808080 #ffffff;
+        box-shadow:
+          inset 1px 1px 0 #ffffff,
+          1px 1px 0 #404040;
+        font-family: 'Tahoma', sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+
+      .xp-btn:hover {
+        background: linear-gradient(to bottom, #ddeeff, #b8d8f8);
+      }
+
+      .xp-btn:active {
+        border-color: #808080 #ffffff #ffffff #808080;
+        box-shadow: inset 1px 1px 0 #c0c0c0;
+        padding-top: 5px;
+        padding-left: 15px;
+      }
+
+      .xp-btn.primary {
+        border: 2px solid;
+        border-color: #000080 #000080 #000080 #000080;
+        outline: 1px solid #ffffff;
+        outline-offset: -3px;
+      }
+
+      /* Barra de tareas inferior simulada */
+      .taskbar {
+        width: 420px;
+        height: 28px;
+        background: linear-gradient(to bottom, #1f5ba8, #2563a8 4px, #1a4f96);
+        border-top: 1px solid #5b9bd5;
+        display: flex;
+        align-items: center;
+        padding: 0 6px;
+        gap: 4px;
+      }
+
+      .start-btn {
+        height: 22px;
+        padding: 0 10px;
+        background: linear-gradient(to bottom, #5ba85b, #3a8a3a);
+        border: 1px solid;
+        border-color: #88cc88 #226622 #226622 #88cc88;
+        border-radius: 3px;
+        color: white;
+        font-weight: bold;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'Tahoma', sans-serif;
+      }
+
+      .taskbar-divider {
+        width: 1px;
+        height: 18px;
+        background: linear-gradient(to bottom, #0a3a7a, #5b9bd5, #0a3a7a);
+        margin: 0 4px;
+      }
+
+      .taskbar-task {
+        height: 20px;
+        padding: 0 8px;
+        background: linear-gradient(to bottom, #1a5298, #2563a8);
+        border: 1px solid;
+        border-color: #5b9bd5 #0a3264 #0a3264 #5b9bd5;
+        color: white;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: default;
+        font-family: 'Tahoma', sans-serif;
+      }
+
+      .taskbar-clock {
+        margin-left: auto;
+        color: white;
+        font-size: 11px;
+        padding: 0 8px;
+        font-family: 'Tahoma', sans-serif;
+      }
+
+      /* Texto del código 404 en el mensaje */
+      .error-code {
+        font-family: 'Courier New', monospace;
+        background: #f0f0f0;
+        border: 1px inset #808080;
+        padding: 2px 6px;
+        font-size: 11px;
+        color: #000080;
+        margin-top: 6px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Ventana de error -->
+    <div class="window">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <div class="title-icon">!</div>
+          Error
+        </div>
+        <div class="title-buttons">
+          <button class="title-btn" title="Minimizar">_</button>
+          <button class="title-btn" title="Maximizar">□</button>
+          <button class="title-btn close" title="Cerrar" onclick="window.history.back()">✕</button>
+        </div>
+      </div>
+
+      <div class="window-body">
+        <div class="message-row">
+          <div class="error-icon"></div>
+          <div class="message-text">
+            <strong>Página no encontrada</strong>
+            La dirección que ingresaste no existe o fue movida.<br>
+            Por favor verificá la URL e intentá nuevamente.
+            <br/>
+            <span class="error-code">HTTP 404 - Not Found</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="button-row">
+          <a href="/" class="xp-btn primary">🏠 Inicio</a>
+          <button class="xp-btn" onclick="window.history.back()">← Volver</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Reloj en la taskbar
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const clock = document.getElementById('clock');
+        if (clock) clock.textContent = `${h}:${m}`;
+      }
+      updateClock();
+      setInterval(updateClock, 30000);
+    </script>
+
+  </body>
+</html>

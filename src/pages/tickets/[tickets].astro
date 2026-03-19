@@ -1,0 +1,27 @@
+---
+import { supabase } from "src/lib/supabase"
+
+const { tickets } = Astro.params
+
+const { data , error } = await supabase
+.from("MatafuegosDB")
+.select("*")
+.eq('ticket', tickets)
+.single()
+
+if(!data || data.length === 0){
+  return Astro.redirect('/404')
+}
+
+const fechaEntregaFormat = new Date(data.fechaEntrega).toLocaleDateString('es-AR')
+const fechaRetiroFormat = new Date(data.fechaRetiro).toLocaleDateString('es-AR')
+
+
+---
+<h2>Bienvenido al ticket = {tickets}</h2>
+<pre>{JSON.stringify(error, null, 2)}</pre>
+<p>{data.empresa}</p>
+<p>{data.unidades}</p>
+<br>
+<p>{fechaEntregaFormat}</p>
+<p>{fechaRetiroFormat}</p>
