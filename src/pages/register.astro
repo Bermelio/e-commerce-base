@@ -2,22 +2,20 @@
 import RootMain from "@layouts/rootMain.astro"
 import Navbar from "@components/Navbar.astro"
 ---
-<RootMain title="Register | A" description="Register page for my page jeje">
+<RootMain title="Registrate" description="Register page for my page jeje">
   <>
     <Navbar />
-    <h2 class="text-8xl flex pl-14">Register</h2>
-    <p class="text-center text-lg">Tenes cuenta? <a href="/signin" class="text-red-600">Inicia Sesion</a></p>
-
-    <div class="flex">
+    <div class="flex sm:pt-20" >
       <form 
       action="/api/auth/register" 
       method="post"
-      class="max-w-lg mx-auto border rounded-2xl p-10 space-y-6 w-full"
+      class="max-w-lg mx-auto shadow-lg rounded-2xl p-10 space-y-6 w-full"
       >
-
-        <h2 class="text-3xl font-bold text-center text-gray-800">
-          Create Account
-        </h2>
+      
+      <h2 class="text-3xl font-bold text-center text-gray-800">
+        Crear cuenta
+      </h2>
+      <p class="text-center text-lg my-2 bg-white-soul ">Tenes cuenta? <a href="/signin" class="text-red-600">Inicia Sesion</a></p>
 
         <div class="flex flex-col space-y-2">
           <label for="email" class="text-sm font-semibold text-gray-600">
@@ -35,7 +33,7 @@ import Navbar from "@components/Navbar.astro"
 
         <div class="flex flex-col space-y-2">
           <label for="password" class="text-sm font-semibold text-gray-600">
-            Password
+            Contraseña
           </label>
           <input 
             type="password" 
@@ -52,7 +50,7 @@ import Navbar from "@components/Navbar.astro"
           class="w-full bg-blue-soul text-white py-3 rounded-xl font-semibold text-lg 
                 hover:bg-blue-900 active:scale-95 transition-all duration-200"
         >
-          Register
+          Registrate
         </button>
 
       </form>
