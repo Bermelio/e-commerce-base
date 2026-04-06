@@ -1,10 +1,12 @@
 ---
 import Navbar from "@components/Navbar.astro"
 import RootMain from "@layouts/rootMain.astro"
-import { supabase } from "src/lib/supabase"
+import { supabase } from "@lib/supabase"
+import Background from "@components/Background.astro"
+
 const { tickets } = Astro.params
 
-const { data , error } = await supabase
+const { data , error: _error } = await supabase
 .from("MatafuegosDB")
 .select("*")
 .eq('ticket', tickets)
@@ -17,7 +19,7 @@ if(!data){
 const fechaEntregaFormat = new Date(data.fechaEntrega).toLocaleDateString('es-AR')
 const fechaRetiroFormat = new Date(data.fechaRetiro).toLocaleDateString('es-AR')
 ---
-<RootMain title="Ticket Unico" description="Ticket del usuario personal | consulta.">
+<RootMain title=`Ticket ${data.empresa}` description="Ticket del usuario personal | consulta.">
   <Navbar/>
   <div class="flex justify-center items-center min-h-full sm:pt-50 pt-20">
     <div class="shadow p-5 m-3 rounded-md flex flex-col item-center gap-2 sm:text-2xl text-md bg-white">
@@ -36,4 +38,5 @@ const fechaRetiroFormat = new Date(data.fechaRetiro).toLocaleDateString('es-AR')
       </span>
     </div>
   </div>
+  <Background/>
 <RootMain/>
