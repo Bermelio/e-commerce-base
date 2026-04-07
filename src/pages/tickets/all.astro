@@ -1,8 +1,10 @@
 ---
-import RootMain from "@layouts/rootMain.astro";
 import Navbar from "@components/Navbar.astro";
-import { supabase } from "@lib/supabase";
+import RootMain from "@layouts/rootMain.astro";
 import CopyButton from "@components/CopyButton.tsx";
+import { supabase } from "@lib/supabase";
+import DeleteTicket from "@components/DeleteTicket.tsx";
+
 
 const accessToken = Astro.cookies.get("sb-access-token");
 const refreshToken = Astro.cookies.get("sb-refresh-token");
@@ -29,10 +31,10 @@ const PAGE_SIZE = 12;
 const offset = (currentPage - 1) * PAGE_SIZE;
 
 const { data, error: _error, count } = await supabase
-  .from('MatafuegosDB')
-  .select('ticket, empresa, metodoPago', { count: "exact" })
-  .order('created_at', { ascending: false })
-  .range(offset, offset + PAGE_SIZE - 1);
+.from('MatafuegosDB')
+.select('ticket, empresa, metodoPago', { count: "exact" })
+.order('created_at', { ascending: false })
+.range(offset, offset + PAGE_SIZE - 1);
 
 const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
 ---
@@ -41,23 +43,28 @@ const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
   <Navbar />
   <section class="grid sm:grid-cols-2 xl:grid-cols-3 sm:m-10 my-5 text-lg">
     {data?.map((item) => (
-      <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white border-blue-soul border m-4">
+      <div class="grid grid-cols-7 gap-4 p-4 rounded-xl bg-white border-blue-soul border m-4 relative">
         <CopyButton texto={String(item.ticket)} client:load />
-        <div class="col-span-1 flex justify-center"><strong>{item.empresa}</strong></div>
-        <div class="col-span-1 flex justify-center">{item.metodoPago}</div>
-        <a class="flex justify-center" href={`/tickets/${item.ticket}`}>Mas detalles +</a>
+        <DeleteTicket ticket={item.ticket} client:load />
+        <div class="col-span-2 flex justify-center"><strong>{item.empresa}</strong></div>
+        <div class="col-span-3 flex justify-center">{item.metodoPago}</div>
+        <a class="flex justify-center col-span-2" href={`/tickets/${item.ticket}`}>Detalles +</a>
       </div>
     ))}
   </section>
-  <div class="flex justify-center gap-4 my-8 items-center">
+  <div class="flex justify-center gap-4 my-8 items-center text-xl">
   {currentPage > 1 && (
-    <a href={`?page=${currentPage - 1}`}>← Anterior</a>
+    <a
+    class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full" 
+    href={`?page=${currentPage - 1}`}>← Anterior</a>
   )}
 
   <span>Página {currentPage} de {totalPages}</span>
 
   {currentPage < totalPages && (
-    <a href={`?page=${currentPage + 1}`}>Siguiente →</a>
+    <a
+    class="relative after:absolute after:bottom-0 after:right-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full" 
+    href={`?page=${currentPage + 1}`}>Siguiente →</a>
   )}
 </div>
 </RootMain>
