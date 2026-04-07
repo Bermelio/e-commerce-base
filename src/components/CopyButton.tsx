@@ -16,3 +16,5 @@ export default function CopyButton({ texto }: { texto: string }) {
     </>
   )
 }
+<script>
+</script>

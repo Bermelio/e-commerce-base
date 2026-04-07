@@ -2,7 +2,7 @@
 import RootMain from "@layouts/rootMain.astro";
 import { supabase } from "@lib/supabase";
 import Navbar from "@components/Navbar.astro";
-import NewItem from "@components/NewItem.astro";
+import SaveForm from '@components/SavaBtn';
 
 const accessToken = Astro.cookies.get("sb-access-token");
 const refreshToken = Astro.cookies.get("sb-refresh-token");
@@ -56,5 +56,5 @@ const email = session.data.user?.email;
       <button type="submit">Cerrar Sesion</button>
     </form>
   </div>
-  <NewItem>
+  <SaveForm client:load />
 </RootMain>
