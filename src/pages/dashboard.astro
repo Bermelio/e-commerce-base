@@ -1,8 +1,8 @@
 ---
 import RootMain from "@layouts/rootMain.astro";
-import { supabase } from "src/lib/supabase";
+import { supabase } from "@lib/supabase";
 import Navbar from "@components/Navbar.astro";
-import NewItem from "@components/NewItem.astro";
+import SaveForm from '@components/SavaBtn';
 
 const accessToken = Astro.cookies.get("sb-access-token");
 const refreshToken = Astro.cookies.get("sb-refresh-token");
@@ -41,15 +41,20 @@ const email = session.data.user?.email;
 <RootMain title="Dashboard | Admin">
   <Navbar/>
   <div class="flex justify-between p-6">
-    <div class="flex flex-col gap-2 items-start">
+    <div class="flex flex-col gap-2 items-start text-xl">
       <h3>Bienvenido {email}</h3>
-      <p>Estamos feliz de verte</p>
+      <a href="/tickets/all"
+      class="
+      text-xl text-right
+      relative pb-1 after:absolute after:bottom-0 after:right-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full">
+      Lista completa</a>
     </div>
     <form 
-      action="/api/auth/signout" 
-      class="text-3xl text-right">
+      action="/api/auth/signout"
+      class="text-2xl text-right
+      relative pb-1 after:absolute after:bottom-0 after:right-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full">
       <button type="submit">Cerrar Sesion</button>
     </form>
   </div>
-  <NewItem>
+  <SaveForm client:load />
 </RootMain>

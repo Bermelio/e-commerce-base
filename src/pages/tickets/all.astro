@@ -1,0 +1,63 @@
+---
+import RootMain from "@layouts/rootMain.astro";
+import Navbar from "@components/Navbar.astro";
+import { supabase } from "@lib/supabase";
+import CopyButton from "@components/CopyButton.tsx";
+
+const accessToken = Astro.cookies.get("sb-access-token");
+const refreshToken = Astro.cookies.get("sb-refresh-token");
+
+if (!accessToken || !refreshToken) {
+  return Astro.redirect("/signin");
+}
+
+try {
+  const { error } = await supabase.auth.setSession({
+    refresh_token: refreshToken.value,
+    access_token: accessToken.value,
+  });
+  if (error) throw error
+} catch {
+  Astro.cookies.delete("sb-access-token", { path: "/" });
+  Astro.cookies.delete("sb-refresh-token", { path: "/" });
+  return Astro.redirect("/signin");
+}
+
+const url = new URL(Astro.request.url);
+const currentPage = parseInt(url.searchParams.get("page") ?? "1");
+const PAGE_SIZE = 12;
+const offset = (currentPage - 1) * PAGE_SIZE;
+
+const { data, error: _error, count } = await supabase
+  .from('MatafuegosDB')
+  .select('ticket, empresa, metodoPago', { count: "exact" })
+  .order('created_at', { ascending: false })
+  .range(offset, offset + PAGE_SIZE - 1);
+
+const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+---
+
+<RootMain title="Listado | admin">
+  <Navbar />
+  <section class="grid sm:grid-cols-2 xl:grid-cols-3 sm:m-10 my-5 text-lg">
+    {data?.map((item) => (
+      <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white border-blue-soul border m-4">
+        <CopyButton texto={String(item.ticket)} client:load />
+        <div class="col-span-1 flex justify-center"><strong>{item.empresa}</strong></div>
+        <div class="col-span-1 flex justify-center">{item.metodoPago}</div>
+        <a class="flex justify-center" href={`/tickets/${item.ticket}`}>Mas detalles +</a>
+      </div>
+    ))}
+  </section>
+  <div class="flex justify-center gap-4 my-8 items-center">
+  {currentPage > 1 && (
+    <a href={`?page=${currentPage - 1}`}>← Anterior</a>
+  )}
+
+  <span>Página {currentPage} de {totalPages}</span>
+
+  {currentPage < totalPages && (
+    <a href={`?page=${currentPage + 1}`}>Siguiente →</a>
+  )}
+</div>
+</RootMain>

@@ -8,7 +8,6 @@
     "dist"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@components/*": [
         "./src/components/*"
@@ -18,9 +17,15 @@
       ],
       "@interface/*": [
         "./src/interface/*"
+      ],
+      "@lib/*":[
+        "./src/lib/*"
+      ],
+      "@consts/*": [
+        "./src/consts/*"
       ]
     },
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }

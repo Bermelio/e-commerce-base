@@ -1,0 +1,42 @@
+---
+import Navbar from "@components/Navbar.astro"
+import RootMain from "@layouts/rootMain.astro"
+import { supabase } from "@lib/supabase"
+import Background from "@components/Background.astro"
+
+const { tickets } = Astro.params
+
+const { data , error: _error } = await supabase
+.from("MatafuegosDB")
+.select("*")
+.eq('ticket', tickets)
+.single()
+
+if(!data){
+  return Astro.redirect('/404')
+}
+
+const fechaEntregaFormat = new Date(data.fechaEntrega).toLocaleDateString('es-AR')
+const fechaRetiroFormat = new Date(data.fechaRetiro).toLocaleDateString('es-AR')
+---
+<RootMain title=`Ticket ${data.empresa}` description="Ticket del usuario personal | consulta.">
+  <Navbar/>
+  <div class="flex justify-center items-center min-h-full sm:pt-50 pt-20">
+    <div class="shadow p-5 m-3 rounded-md flex flex-col item-center gap-2 sm:text-2xl text-md bg-white">
+      <span class="border-b border-gray-200 pb-4 text-center text-gray-300">
+        <h5>Ticket: <strong>{tickets}</strong></h5>
+      </span>
+      <span class="border-b border-gray-200 py-4 text-2xl">
+        <p>Dueño o empresa: <strong>{data.empresa}</strong></p>
+        <p>Unidad/es: <strong>{data.unidades}</strong></p>
+        <p>Clasificación-<strong>{data.clasificacion}</strong></p>
+      </span>
+      <span class="py-4 text-2xl">
+        <p>Fecha de entrega: <strong>{fechaEntregaFormat}</strong></p>
+        <p>Fecha de retiro: <strong>{fechaRetiroFormat}</strong></p>
+        <p>Método de pago: <strong>{data.metodoPago}</strong></p>
+      </span>
+    </div>
+  </div>
+  <Background/>
+<RootMain/>
