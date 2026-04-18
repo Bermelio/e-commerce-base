@@ -1,6 +1,6 @@
 import toast, { Toaster } from 'react-hot-toast';
 
-export default function SaveForm() {
+export default function SaveForm(){
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

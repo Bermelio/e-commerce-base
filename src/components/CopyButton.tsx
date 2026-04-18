@@ -9,7 +9,7 @@ export default function CopyButton({ texto }: { texto: string }) {
           navigator.clipboard.writeText(texto)
           toast.success('Copiado!')
         }}
-        className="text-md cursor-pointer col-span-6 flex justify-center items-center"
+        className="text-xs text-gray-400 font-mono truncate max-w-60 cursor-pointer"
       >
         {texto}
       </div>

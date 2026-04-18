@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { supabase } from '@lib/supabasePublic';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface Props {
