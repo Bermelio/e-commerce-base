@@ -17,41 +17,32 @@ export default function ToggleReady({ ticket, initialEstado }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ticket, estado: !estado }),
       });
-
-      if (res.ok) {
-        setEstado((prev) => !prev);
-      }
+      if (res.ok) setEstado((prev) => !prev);
     } catch (err) {
-      console.error("Error al actualizar estado:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <label
-      className={`inline-flex items-center ${
-        loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
-      }`}
+    <button
+      onClick={handleToggle}
+      disabled={loading}
+      className={`
+        relative inline-flex w-11 h-6 rounded-full transition-colors duration-200
+        ${estado ? "bg-blue-500" : "bg-gray-300"}
+        ${loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+      `}
     >
-      <input
-        type="checkbox"
-        className="sr-only peer"
-        checked={estado}
-        onChange={handleToggle}
+      <span
+        className={`
+          absolute top-0.5 left-0.5
+          h-5 w-5 bg-white rounded-full shadow
+          transition-transform duration-200
+          ${estado ? "translate-x-5" : "translate-x-0"}
+        `}
       />
-      <div
-        className="
-          relative w-11 h-6 rounded-full
-          bg-gray-300
-          peer-checked:bg-blue-500
-          after:content-[''] after:absolute after:top-0.5 after:left-0.5
-          after:bg-white after:rounded-full
-          after:h-5 after:w-5
-          after:transition-all after:duration-200
-          peer-checked:after:translate-x-5
-        "
-      />
-    </label>
+    </button>
   );
 }

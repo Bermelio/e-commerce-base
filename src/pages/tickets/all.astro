@@ -45,6 +45,8 @@ const methodColor: Record<string, string> = {
   "Mercado Pago": "bg-amber-400",
   "Transferencia": "bg-violet-400",
 };
+
+//Todo: Hacer menu desplegable, con las opciones y otros sea escrito y gris
 ---
 
 <RootMain title="Listado | admin">
@@ -73,7 +75,11 @@ const methodColor: Record<string, string> = {
 
         <div class="flex items-center justify-between border-t border-gray-100 pt-3">
           Estado
-          <ToggleReady ticket={item.ticket} initialEstado={item.estado ?? false} client:load />
+          <ToggleReady 
+            ticket={item.ticket} 
+            initialEstado={item.estado ?? false} 
+            client:load 
+          />
         </div>
 
       </div>

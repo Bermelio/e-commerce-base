@@ -1,9 +1,14 @@
 import toast, { Toaster } from 'react-hot-toast';
+import { useState } from 'react';
 
 export default function SaveForm(){
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    setIsSubmitting(true);
 
    await toast.promise(
     fetch('/api/matafuegosDb', {
@@ -21,8 +26,7 @@ export default function SaveForm(){
         },
         error: 'No se pudo guardar. Intentá de nuevo.',
       }
-    );
-  
+    ).finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -117,12 +121,12 @@ export default function SaveForm(){
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-green-soul hover:bg-forest-soul text-white-soul px-4 py-2 rounded-md"
+                disabled={isSubmitting}
+                className="bg-green-soul hover:bg-forest-soul text-white-soul px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Guardar
+                {isSubmitting ? 'Guardando...' : 'Guardar'}
               </button>
             </div>
-
           </div>
         </div>
       </form>
