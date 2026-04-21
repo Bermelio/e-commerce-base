@@ -1,8 +1,11 @@
 ---
-import RootMain from "@layouts/rootMain.astro";
 import Navbar from "@components/Navbar.astro";
-import { supabase } from "@lib/supabase";
+import RootMain from "@layouts/rootMain.astro";
 import CopyButton from "@components/CopyButton.tsx";
+import { supabase } from "@lib/supabase";
+import DeleteTicket from "@components/DeleteTicket.tsx";
+import ToggleReady from "@components/ToggleReady";
+
 
 const accessToken = Astro.cookies.get("sb-access-token");
 const refreshToken = Astro.cookies.get("sb-refresh-token");
@@ -29,35 +32,71 @@ const PAGE_SIZE = 12;
 const offset = (currentPage - 1) * PAGE_SIZE;
 
 const { data, error: _error, count } = await supabase
-  .from('MatafuegosDB')
-  .select('ticket, empresa, metodoPago', { count: "exact" })
-  .order('created_at', { ascending: false })
-  .range(offset, offset + PAGE_SIZE - 1);
+.from('MatafuegosDB')
+.select('ticket, empresa, metodoPago, estado', { count: "exact" })
+.order('created_at', { ascending: false })
+.order('ticket', {ascending: true})
+.range(offset, offset + PAGE_SIZE - 1);
 
 const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+
+const methodColor: Record<string, string> = {
+  "Tarjeta de crédito": "bg-blue-400",
+  "Efectivo": "bg-emerald-400",
+  "Mercado Pago": "bg-amber-400",
+  "Transferencia": "bg-violet-400",
+};
+
+//Todo: Hacer menu desplegable, con las opciones y otros sea escrito y gris
 ---
 
 <RootMain title="Listado | admin">
   <Navbar />
-  <section class="grid sm:grid-cols-2 xl:grid-cols-3 sm:m-10 my-5 text-lg">
+  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-4">
     {data?.map((item) => (
-      <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white border-blue-soul border m-4">
-        <CopyButton texto={String(item.ticket)} client:load />
-        <div class="col-span-1 flex justify-center"><strong>{item.empresa}</strong></div>
-        <div class="col-span-1 flex justify-center">{item.metodoPago}</div>
-        <a class="flex justify-center" href={`/tickets/${item.ticket}`}>Mas detalles +</a>
+      <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col gap-3 hover:border-gray-300 transition-colors relative">
+
+        <div class="flex items-center justify-between">
+          <CopyButton texto={String(item.ticket)} client:load />
+          <DeleteTicket ticket={item.ticket} client:load />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-800">{item.empresa}</span>
+            <span class="flex items-center gap-1 text-xs text-gray-500">
+              <span class={`w-2 h-2 rounded-full ${methodColor[item.metodoPago] ?? "bg-gray-400"}`} />
+              {item.metodoPago}
+            </span>
+          </div>
+          <a href={`/tickets/${item.ticket}`} class="text-md text-blue-500 hover:underline ">
+            Detalles +
+          </a>
+        </div>
+
+        <div class="flex items-center justify-between border-t border-gray-100 pt-3">
+          Estado
+          <ToggleReady 
+            ticket={item.ticket} 
+            initialEstado={item.estado ?? false} 
+            client:load 
+          />
+        </div>
+
       </div>
     ))}
   </section>
-  <div class="flex justify-center gap-4 my-8 items-center">
+  <div class="flex justify-center gap-4 my-8 items-center text-xl">
   {currentPage > 1 && (
-    <a href={`?page=${currentPage - 1}`}>← Anterior</a>
+    <a
+    class="relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full" 
+    href={`?page=${currentPage - 1}`}>← Anterior</a>
   )}
-
   <span>Página {currentPage} de {totalPages}</span>
-
   {currentPage < totalPages && (
-    <a href={`?page=${currentPage + 1}`}>Siguiente →</a>
+    <a
+    class="relative after:absolute after:bottom-0 after:right-0 after:h-0.5 after:w-0 after:bg-blue-soul after:transition-all after:duration-500 hover:after:w-full" 
+    href={`?page=${currentPage + 1}`}>Siguiente →</a>
   )}
 </div>
 </RootMain>
