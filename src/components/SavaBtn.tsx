@@ -21,7 +21,6 @@ export default function SaveForm(){
       {
         loading: 'Guardando...',
         success: () => {
-          setTimeout(() => location.reload(), 1500);
           return '¡Guardado correctamente!';
         },
         error: 'No se pudo guardar. Intentá de nuevo.',

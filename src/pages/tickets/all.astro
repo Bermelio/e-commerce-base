@@ -35,6 +35,7 @@ const { data, error: _error, count } = await supabase
 .from('MatafuegosDB')
 .select('ticket, empresa, metodoPago, estado', { count: "exact" })
 .order('created_at', { ascending: false })
+.order('ticket', {ascending: true})
 .range(offset, offset + PAGE_SIZE - 1);
 
 const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);

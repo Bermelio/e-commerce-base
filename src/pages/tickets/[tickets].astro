@@ -57,16 +57,14 @@ const fechaRetiroFormat = new Date(data.fechaRetiro).toLocaleDateString('es-AR')
 
       </span>
       <span class="flex justify-between items-center text-xl">
-        <p>Estado actual:
-          {data.estado
-        ?<span class="flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          Listo para retirar</span> 
-        :<span class="flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-          Trabajando</span>}
-        </p>
-
+          <p>Estado actual:</p>
+            {data.estado
+          ?<span class="flex items-center gap-2">Listo para retirar
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"/>
+            </span> 
+          :<span class="flex items-center gap-2">Trabajando
+            <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"/>
+            </span>}
       </span>
     </div>
   </div>
